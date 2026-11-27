@@ -61,13 +61,13 @@ Times are interpreted in the phone's local zone. If the phone is in a different 
 
 ## Tasks
 
-1. Migration v2 and cache repository, with tests.
-2. `parseMonth` and the Aladhan client with a fake `fetch`, tests for suffix stripping, date conversion, errors and bad data.
-3. `ensureTimes` cache logic with tests (cold cache, warm cache, month rollover, offline fallback).
-4. `planReminders` with tests (offsets, past times skipped, window edges, midnight, ID stability).
-5. Reminder scheduler wrapper and Android channel setup, with a fake in tests.
-6. Settings screen and first-run flow.
-7. Show times on Today with cache and error states.
+1. [x] Migration v2 and cache repository, with tests.
+2. [x] `parseMonth` and the Aladhan client with a fake `fetch`, tests for suffix stripping, date conversion, errors and bad data.
+3. [x] `ensureTimes` cache logic with tests (cold cache, warm cache, month rollover, offline fallback).
+4. [x] `planReminders` with tests (offsets, past times skipped, window edges, midnight, ID stability).
+5. [x] Reminder scheduler wrapper and Android channel setup, with a fake in tests.
+6. [x] Settings screen and first-run flow.
+7. [x] Show times on Today with cache and error states.
 8. Manual device check, docs and progress update, pull request.
 
 ## Test plan

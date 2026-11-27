@@ -4,17 +4,26 @@ Newest first. Each entry says what changed, what was verified, and what is next.
 
 ## Status board
 
-| Phase                        | State                           |
-| ---------------------------- | ------------------------------- |
-| 0 Foundation                 | Not started                     |
-| 1 Core check-in              | Not started                     |
-| 2 Prayer times and reminders | Design written, awaiting review |
-| 3 Streaks and stats          | Not started                     |
-| 4 Language, theme, polish    | Not started                     |
-| 5 Release                    | Not started                     |
-| 6 Sync (optional)            | Not started                     |
+| Phase                        | State           |
+| ---------------------------- | --------------- |
+| 0 Foundation                 | Not started     |
+| 1 Core check-in              | Not started     |
+| 2 Prayer times and reminders | Built (PR open) |
+| 3 Streaks and stats          | Not started     |
+| 4 Language, theme, polish    | Not started     |
+| 5 Release                    | Not started     |
+| 6 Sync (optional)            | Not started     |
 
 ## Log
+
+### Phase 2: built
+
+- **Data:** migration v2 (`prayer_times`), typed settings with validation and defaults (Karachi method, Hanafi Asr), cache repository keyed by location (D10).
+- **Aladhan client:** parses `"05:39 (PKT)"` times and `DD-MM-YYYY` dates, rejects malformed months, maps failures to `city_not_found` / `network` / `bad_response`; `ensureTimes` caches whole months and falls back to older cache offline.
+- **Reminders:** pure `planReminders` (rolling 7 days, offset, stable ids), thin Expo wrapper with an Android channel and permission request, rebuilt on app open, foreground, settings change and day change (D12).
+- **Screens:** Settings tab (city, country, method, Asr school, reminders with offset, live preview of today's times); Today shows each prayer's time and a note when times are saved or unavailable.
+- **Verified:** 51 Jest tests, type-check, lint, format, and the Android bundle builds.
+- **Device checks still to do on a phone:** a reminder firing in Expo Go, offline Today, changing school moves Asr. Background reliability is a Phase 5 check.
 
 ### Phase 2: design
 

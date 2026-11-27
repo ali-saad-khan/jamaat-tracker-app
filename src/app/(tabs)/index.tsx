@@ -6,6 +6,7 @@ import { PRAYERS, type Prayer } from "@/domain/prayers";
 import { nextStatus, summarizeDay } from "@/domain/status";
 import { useEntries } from "@/hooks/use-entries";
 import { useToday } from "@/hooks/use-today";
+import { usePrayerTimes } from "@/state/prayer-times";
 import { PRAYER_NAMES, markColor, markLabel } from "@/ui/labels";
 
 export default function TodayScreen() {
@@ -14,6 +15,8 @@ export default function TodayScreen() {
   const { days, reload } = useEntries(today, today);
   const entries = days[today] ?? {};
   const summary = summarizeDay(entries);
+  const { days: timeDays, status, error } = usePrayerTimes();
+  const times = timeDays[today];
 
   const cycle = async (prayer: Prayer) => {
     await setStatus(db, today, prayer, nextStatus(entries[prayer] ?? null));
@@ -30,6 +33,17 @@ export default function TodayScreen() {
       <Text style={styles.summary}>
         {summary.marked} of {summary.total} marked · {summary.jamaat} in congregation
       </Text>
+      {status === "stale" && (
+        <Text style={styles.note}>Showing saved prayer times (could not refresh).</Text>
+      )}
+      {status === "unavailable" && (
+        <Text style={styles.note}>
+          Prayer times are unavailable
+          {error === "city_not_found"
+            ? ": city not found. Check Settings."
+            : ". Check your connection."}
+        </Text>
+      )}
       <View style={styles.list}>
         {PRAYERS.map((prayer) => {
           const mark = entries[prayer] ?? null;
@@ -42,7 +56,10 @@ export default function TodayScreen() {
               onLongPress={() => void clear(prayer)}
               style={({ pressed }) => [styles.row, pressed && styles.rowPressed]}
             >
-              <Text style={styles.prayer}>{PRAYER_NAMES[prayer]}</Text>
+              <View>
+                <Text style={styles.prayer}>{PRAYER_NAMES[prayer]}</Text>
+                {times && <Text style={styles.time}>{times[prayer]}</Text>}
+              </View>
               <View style={[styles.badge, { backgroundColor: markColor(mark) }]}>
                 <Text style={styles.badgeText}>{markLabel(mark)}</Text>
               </View>
@@ -74,5 +91,7 @@ const styles = StyleSheet.create({
   prayer: { fontSize: 20, fontWeight: "600" },
   badge: { paddingHorizontal: 12, paddingVertical: 6, borderRadius: 999 },
   badgeText: { color: "#fff", fontWeight: "600" },
+  note: { fontSize: 13, color: "#c0392b" },
+  time: { fontSize: 15, opacity: 0.65, marginTop: 2 },
   hint: { fontSize: 13, opacity: 0.6, marginTop: 4 },
 });
