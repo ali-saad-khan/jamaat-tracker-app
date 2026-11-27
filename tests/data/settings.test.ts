@@ -22,6 +22,7 @@ describe("settings", () => {
       school: 0,
       remindersEnabled: true,
       reminderOffsetMinutes: 10,
+      streakTarget: 3,
       language: "ur",
       theme: "dark",
     });
@@ -32,6 +33,7 @@ describe("settings", () => {
       school: 0,
       remindersEnabled: true,
       reminderOffsetMinutes: 10,
+      streakTarget: 3,
       language: "ur",
       theme: "dark",
     });
@@ -39,7 +41,7 @@ describe("settings", () => {
 
   it("falls back to defaults for invalid stored values", async () => {
     await db.runAsync(
-      "INSERT INTO settings (key, value) VALUES ('method', '99'), ('school', '7'), ('reminderOffsetMinutes', '3'), ('language', 'fr'), ('theme', 'pink')",
+      "INSERT INTO settings (key, value) VALUES ('method', '99'), ('school', '7'), ('reminderOffsetMinutes', '3'), ('streakTarget', '2'), ('language', 'fr'), ('theme', 'pink')",
     );
     expect(await loadSettings(db)).toEqual(DEFAULT_SETTINGS);
   });

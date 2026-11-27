@@ -74,3 +74,29 @@ describe("msUntilNextLocalMidnight", () => {
     expect(msUntilNextLocalMidnight(new Date(2026, 0, 5, 0, 0, 0, 0))).toBe(86_400_000);
   });
 });
+
+import { addMonths, daysInMonth, monthGrid, weekdayIndex } from "@/domain/dates";
+
+describe("calendar helpers", () => {
+  it("knows weekdays and month lengths", () => {
+    expect(weekdayIndex("2026-11-27")).toBe(5); // Friday
+    expect(daysInMonth(2028, 2)).toBe(29);
+    expect(daysInMonth(2026, 2)).toBe(28);
+    expect(daysInMonth(2026, 12)).toBe(31);
+  });
+
+  it("moves between months across year ends", () => {
+    expect(addMonths(2026, 12, 1)).toEqual({ year: 2027, month: 1 });
+    expect(addMonths(2026, 1, -1)).toEqual({ year: 2025, month: 12 });
+    expect(addMonths(2026, 5, 0)).toEqual({ year: 2026, month: 5 });
+    expect(addMonths(2026, 3, 13)).toEqual({ year: 2027, month: 4 });
+  });
+
+  it("builds Monday-first weeks padded with nulls", () => {
+    const grid = monthGrid(2026, 11); // 1 Nov 2026 is a Sunday
+    expect(grid[0]).toEqual([null, null, null, null, null, null, "2026-11-01"]);
+    expect(grid[grid.length - 1][0]).toBe("2026-11-30");
+    expect(grid.every((w) => w.length === 7)).toBe(true);
+    expect(grid.flat().filter(Boolean)).toHaveLength(30);
+  });
+});

@@ -2,6 +2,7 @@ import type { Db } from "./db";
 
 export type School = 0 | 1; // 0 = Shafi (earlier Asr), 1 = Hanafi (later Asr)
 export type ReminderOffset = 0 | 5 | 10 | 15;
+export type StreakTarget = 3 | 4 | 5;
 export type Language = "en" | "ur";
 export type ThemeChoice = "system" | "light" | "dark";
 
@@ -12,6 +13,8 @@ export interface AppSettings {
   school: School;
   remindersEnabled: boolean;
   reminderOffsetMinutes: ReminderOffset;
+  /** Prayers in congregation needed for a day to count toward the streak. */
+  streakTarget: StreakTarget;
   language: Language;
   theme: ThemeChoice;
 }
@@ -24,6 +27,7 @@ export const DEFAULT_SETTINGS: AppSettings = {
   school: 1,
   remindersEnabled: false,
   reminderOffsetMinutes: 0,
+  streakTarget: 5,
   language: "en",
   theme: "system",
 };
@@ -54,6 +58,7 @@ export async function loadSettings(db: Db): Promise<AppSettings> {
   const method = Number(raw.method);
   const school = Number(raw.school);
   const offset = Number(raw.reminderOffsetMinutes);
+  const target = Number(raw.streakTarget);
   return {
     city: raw.city?.trim() || d.city,
     country: raw.country?.trim() || d.country,
@@ -63,6 +68,7 @@ export async function loadSettings(db: Db): Promise<AppSettings> {
     reminderOffsetMinutes: isOneOf(offset, [0, 5, 10, 15] as const)
       ? offset
       : d.reminderOffsetMinutes,
+    streakTarget: isOneOf(target, [3, 4, 5] as const) ? target : d.streakTarget,
     language: isOneOf(raw.language, ["en", "ur"] as const) ? raw.language : d.language,
     theme: isOneOf(raw.theme, ["system", "light", "dark"] as const) ? raw.theme : d.theme,
   };

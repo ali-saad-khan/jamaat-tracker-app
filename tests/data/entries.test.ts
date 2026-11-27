@@ -1,5 +1,5 @@
 import type { Db } from "@/data/db";
-import { getDay, getRange, setStatus } from "@/data/entries";
+import { getDay, getEarliestDate, getRange, setStatus } from "@/data/entries";
 import { DATABASE_VERSION, migrate } from "@/data/migrations";
 import { createMemoryDb } from "../helpers/memoryDb";
 
@@ -66,5 +66,14 @@ describe("entries", () => {
       "INSERT INTO entries (date, prayer, status, updated_at) VALUES ('2026-03-02', 'chasht', 'jamaat', 1), ('2026-03-02', 'fajr', 'maybe', 1), ('2026-03-02', 'isha', 'alone', 1)",
     );
     expect(await getDay(db, "2026-03-02")).toEqual({ isha: "alone" });
+  });
+});
+
+describe("getEarliestDate", () => {
+  it("is null with no marks and the oldest day otherwise", async () => {
+    expect(await getEarliestDate(db)).toBeNull();
+    await setStatus(db, "2026-03-05", "fajr", "jamaat");
+    await setStatus(db, "2026-02-27", "isha", "alone");
+    expect(await getEarliestDate(db)).toBe("2026-02-27");
   });
 });

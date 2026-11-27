@@ -4,17 +4,25 @@ Newest first. Each entry says what changed, what was verified, and what is next.
 
 ## Status board
 
-| Phase                        | State           |
-| ---------------------------- | --------------- |
-| 0 Foundation                 | Not started     |
-| 1 Core check-in              | Not started     |
-| 2 Prayer times and reminders | Built (PR open) |
-| 3 Streaks and stats          | Not started     |
-| 4 Language, theme, polish    | Not started     |
-| 5 Release                    | Not started     |
-| 6 Sync (optional)            | Not started     |
+| Phase                        | State                                      |
+| ---------------------------- | ------------------------------------------ |
+| 0 Foundation                 | Not started                                |
+| 1 Core check-in              | Not started                                |
+| 2 Prayer times and reminders | Done (PR #3 merged); device checks pending |
+| 3 Streaks and stats          | Not started                                |
+| 4 Language, theme, polish    | Not started                                |
+| 5 Release                    | Not started                                |
+| 6 Sync (optional)            | Not started                                |
 
 ## Log
+
+### Phase 3: streaks and stats
+
+- **Logic (tested):** `stats.ts` (current and best streak, range totals and congregation percentage, daily counts) and calendar helpers in `dates.ts` (`monthGrid`, `addMonths`, `weekdayIndex`).
+- **Streak rules:** a day counts with at least N congregation prayers (setting, default 5); an incomplete today does not break the streak (D13).
+- **Screens:** Stats tab (current and best streak, 7-day bar chart, week and 30-day summaries); History is now a month calendar with colour by congregation count and a day editor for past days (D14); a shared `DayEditor` is used by Today and History.
+- **Verified:** 67 Jest tests, type-check, lint, format.
+- **Next:** Phase 4 (Urdu and RTL, dark mode, accessibility, icon).
 
 ### Phase 2: built
 
