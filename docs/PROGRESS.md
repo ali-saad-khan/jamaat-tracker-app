@@ -16,6 +16,13 @@ Newest first. Each entry says what changed, what was verified, and what is next.
 
 ## Log
 
+### Release 1.0.0
+
+- Built the signed release APK locally (Android SDK, Gradle, own keystore), without EAS. Verified the signature with `apksigner`.
+- Ran the release build in an Android emulator: check-in, History calendar with past-day editing, streaks and stats, Aladhan prayer times, Urdu right-to-left layout (the tab bar reverses too) and dark mode all work. Eight screenshots (sample data) are in `docs/screenshots/` and the README.
+- Published GitHub Release v1.0.0 with the APK, its SHA-256 and the signing certificate fingerprint.
+- **Not yet verified:** reminders after hours in the background, after a restart and under battery saver (needs real phones over time); iOS (not built).
+
 ### Phase 5: release preparation
 
 - Added `eas.json` (development, preview APK and production profiles), `CHANGELOG.md` (1.0.0), a release guide (`docs/RELEASE.md`), a case study for the portfolio (`docs/CASE-STUDY.md`) and the final README.

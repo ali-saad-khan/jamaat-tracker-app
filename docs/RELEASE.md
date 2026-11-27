@@ -1,5 +1,19 @@
 # Release guide
 
+## How 1.0.0 was built (local, without EAS)
+
+The first release was built on a laptop with the Android SDK instead of EAS, so no Expo account was needed.
+
+1. Install the Android command-line tools and the packages the project needs (platform 37, build-tools 37.0.0, NDK 27.1.12297006, CMake 3.22.1).
+2. In a scratch copy of the repo: `npm ci`, then `npx expo prebuild --platform android`.
+3. Sign the release build with your own key (a keystore generated once with `keytool`) by adding a `release` signing config to `android/app/build.gradle`.
+4. Build: `cd android && ./gradlew assembleRelease -PreactNativeArchitectures=arm64-v8a,x86_64` (about 26 minutes the first time).
+5. Check: `apksigner verify --print-certs app-release.apk`, install it in an emulator and walk through the app.
+
+Keep the keystore and its passwords backed up somewhere safe: updates to an installed app must be signed with the same key. The generated `android/` folder is not committed.
+
+The APK contains arm64-v8a and x86_64 code (modern phones and emulators). Old 32-bit phones are not supported; add `armeabi-v7a` to the architectures to include them.
+
 How to build the Android app and publish it on GitHub. Building needs an Expo account (free).
 
 ## One-time setup

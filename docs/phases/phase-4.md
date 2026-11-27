@@ -25,5 +25,5 @@ Make the app comfortable for Urdu readers and in the dark, and give it a finishe
 
 ## Known limits
 
-- The native tab bar does not reverse its order in Urdu (D16).
+- Dates are shown with Western digits in both languages.
 - Dates are shown as `YYYY-MM-DD` with Western digits in both languages.
