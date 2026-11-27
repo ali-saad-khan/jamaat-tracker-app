@@ -1,6 +1,6 @@
 import type { Db } from "./db";
 
-export const DATABASE_VERSION = 1;
+export const DATABASE_VERSION = 2;
 
 /** Brings the database up to `DATABASE_VERSION`. Safe to run on every launch. */
 export async function migrate(db: Db): Promise<void> {
@@ -24,6 +24,23 @@ export async function migrate(db: Db): Promise<void> {
       );
     `);
     version = 1;
+  }
+
+  if (version < 2) {
+    await db.execAsync(`
+      CREATE TABLE IF NOT EXISTS prayer_times (
+        date TEXT NOT NULL,
+        location_key TEXT NOT NULL,
+        fajr TEXT NOT NULL,
+        dhuhr TEXT NOT NULL,
+        asr TEXT NOT NULL,
+        maghrib TEXT NOT NULL,
+        isha TEXT NOT NULL,
+        fetched_at INTEGER NOT NULL,
+        PRIMARY KEY (date, location_key)
+      );
+    `);
+    version = 2;
   }
 
   await db.execAsync(`PRAGMA user_version = ${DATABASE_VERSION}`);
