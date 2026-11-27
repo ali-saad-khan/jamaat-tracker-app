@@ -1,4 +1,7 @@
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, View } from "react-native";
+
+import { Text } from "@/ui/themed";
+import { useTheme } from "@/ui/theme";
 
 interface Props<T extends string | number> {
   label: string;
@@ -9,6 +12,7 @@ interface Props<T extends string | number> {
 
 /** A row of single-choice buttons with a label. */
 export function Chips<T extends string | number>({ label, options, value, onChange }: Props<T>) {
+  const theme = useTheme();
   return (
     <View style={styles.group} accessibilityRole="radiogroup" accessibilityLabel={label}>
       <Text style={styles.label}>{label}</Text>
@@ -21,9 +25,17 @@ export function Chips<T extends string | number>({ label, options, value, onChan
               accessibilityRole="radio"
               accessibilityState={{ selected }}
               onPress={() => onChange(o.value)}
-              style={[styles.chip, selected && styles.chipSelected]}
+              style={[
+                styles.chip,
+                { borderColor: theme.inputBorder },
+                selected && { backgroundColor: theme.primary, borderColor: theme.primary },
+              ]}
             >
-              <Text style={[styles.chipText, selected && styles.chipTextSelected]}>{o.label}</Text>
+              <Text
+                style={[styles.chipText, selected && { color: theme.onPrimary, fontWeight: "600" }]}
+              >
+                {o.label}
+              </Text>
             </Pressable>
           );
         })}
@@ -37,15 +49,12 @@ const styles = StyleSheet.create({
   label: { fontSize: 15, fontWeight: "600" },
   row: { flexDirection: "row", flexWrap: "wrap", gap: 8 },
   chip: {
-    minHeight: 44,
+    minHeight: 48,
     paddingHorizontal: 14,
-    borderRadius: 22,
+    borderRadius: 24,
     borderWidth: 1,
-    borderColor: "#9aa0a6",
     alignItems: "center",
     justifyContent: "center",
   },
-  chipSelected: { backgroundColor: "#1b8a5a", borderColor: "#1b8a5a" },
   chipText: { fontSize: 15 },
-  chipTextSelected: { color: "#fff", fontWeight: "600" },
 });

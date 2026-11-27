@@ -1,13 +1,15 @@
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 
 import { weekdayIndex } from "@/domain/dates";
 import type { RangeStats } from "@/domain/stats";
 import { useStats } from "@/hooks/use-stats";
 import { useToday } from "@/hooks/use-today";
 import { useSettings } from "@/state/settings";
+import { useI18n } from "@/state/i18n";
 import { STATUS_COLORS } from "@/ui/labels";
+import { useTheme } from "@/ui/theme";
+import { Text } from "@/ui/themed";
 
-const DAY_LETTERS = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
 const BAR_HEIGHT = 120;
 
 function Card({ title, value, caption }: { title: string; value: string; caption?: string }) {
@@ -24,40 +26,47 @@ function Card({ title, value, caption }: { title: string; value: string; caption
   );
 }
 
-function rangeCaption(s: RangeStats): string {
-  return `${s.jamaat} in congregation · ${s.alone} alone · ${s.missed} missed · ${s.unmarked} not marked`;
-}
-
 export default function StatsScreen() {
   const today = useToday();
+  const { t, list } = useI18n();
+  const theme = useTheme();
   const { settings } = useSettings();
   const stats = useStats(today, settings.streakTarget);
 
   if (!stats) return null;
   const target = settings.streakTarget;
-  const unit = (n: number) => (n === 1 ? "day" : "days");
+  const unit = (n: number) => t(n === 1 ? "stats.day" : "stats.days");
+  const dayNames = list("weekdaysChart");
+  const caption = (r: RangeStats) =>
+    t("stats.caption", {
+      jamaat: r.jamaat,
+      alone: r.alone,
+      missed: r.missed,
+      unmarked: r.unmarked,
+    });
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.pair}>
-        <Card title="Current streak" value={`${stats.current} ${unit(stats.current)}`} />
-        <Card title="Best streak" value={`${stats.best} ${unit(stats.best)}`} />
+        <Card title={t("stats.current")} value={`${stats.current} ${unit(stats.current)}`} />
+        <Card title={t("stats.best")} value={`${stats.best} ${unit(stats.best)}`} />
       </View>
-      <Text style={styles.footnote}>
-        A day counts when {target === 5 ? "all 5" : `at least ${target}`} prayers were in
-        congregation. Change this in Settings.
+      <Text style={[styles.footnote, { color: theme.subtext }]}>
+        {target === 5 ? t("stats.footnoteAll") : t("stats.footnoteSome", { n: target })}
       </Text>
 
-      <Text style={styles.heading}>Last 7 days</Text>
+      <Text style={styles.heading}>{t("stats.last7")}</Text>
       <View
         style={styles.chart}
         accessible
-        accessibilityLabel={`Prayers in congregation per day: ${stats.bars.map((b) => b.jamaat).join(", ")}`}
+        accessibilityLabel={t("stats.chartA11y", {
+          counts: stats.bars.map((b) => b.jamaat).join(", "),
+        })}
       >
         {stats.bars.map((b) => (
           <View key={b.date} style={styles.barColumn}>
             <Text style={styles.barCount}>{b.jamaat}</Text>
-            <View style={styles.barTrack}>
+            <View style={[styles.barTrack, { backgroundColor: theme.track }]}>
               <View
                 style={[
                   styles.bar,
@@ -65,20 +74,22 @@ export default function StatsScreen() {
                 ]}
               />
             </View>
-            <Text style={styles.barLabel}>{DAY_LETTERS[weekdayIndex(b.date)]}</Text>
+            <Text style={[styles.barLabel, { color: theme.subtext }]}>
+              {dayNames[weekdayIndex(b.date)]}
+            </Text>
           </View>
         ))}
       </View>
 
       <Card
-        title="This week"
-        value={`${stats.week.jamaatPercent}% in congregation`}
-        caption={rangeCaption(stats.week)}
+        title={t("stats.week")}
+        value={t("stats.percent", { n: stats.week.jamaatPercent })}
+        caption={caption(stats.week)}
       />
       <Card
-        title="Last 30 days"
-        value={`${stats.month.jamaatPercent}% in congregation`}
-        caption={rangeCaption(stats.month)}
+        title={t("stats.last30")}
+        value={t("stats.percent", { n: stats.month.jamaatPercent })}
+        caption={caption(stats.month)}
       />
     </ScrollView>
   );
@@ -95,10 +106,10 @@ const styles = StyleSheet.create({
     padding: 14,
     gap: 4,
   },
-  cardTitle: { fontSize: 13, opacity: 0.7 },
+  cardTitle: { fontSize: 13 },
   cardValue: { fontSize: 22, fontWeight: "700" },
-  cardCaption: { fontSize: 12, opacity: 0.65 },
-  footnote: { fontSize: 12, opacity: 0.6 },
+  cardCaption: { fontSize: 12 },
+  footnote: { fontSize: 12 },
   heading: { fontSize: 18, fontWeight: "700" },
   chart: { flexDirection: "row", justifyContent: "space-between", alignItems: "flex-end", gap: 8 },
   barColumn: { flex: 1, alignItems: "center", gap: 4 },
@@ -112,5 +123,5 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   bar: { width: "100%", borderRadius: 8 },
-  barLabel: { fontSize: 12, opacity: 0.7 },
+  barLabel: { fontSize: 11 },
 });
