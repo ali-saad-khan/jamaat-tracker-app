@@ -26,7 +26,7 @@ I run a daily WhatsApp poll for a family group asking who prayed in congregation
 - **Real SQL in tests.** The repository code is tested against an in-memory SQLite engine behind a small `Db` interface, not a mock.
 - **Local calendar days, not timestamps.** "Today" has to mean the user's day, including near midnight.
 - **Asr school is a setting.** I checked the API: in Karachi the Asr time differs by 44 minutes between schools, so hiding it would have shipped wrong times for half the users.
-- **Right-to-left without a restart.** The `direction` style flips the layout immediately; the native tab bar order is a documented limit.
+- **Right-to-left without a restart.** The `direction` style flips the layout immediately, and on the release build the tab bar order reverses too.
 - **Phased delivery with pull requests.** Six phases, each a branch and PR with CI (format, lint, type-check, tests).
 
 ## What went wrong or surprised me

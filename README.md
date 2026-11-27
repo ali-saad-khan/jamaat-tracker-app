@@ -14,7 +14,7 @@ I run a daily WhatsApp poll in a family group to remind everyone to pray in cong
 
 ## Install (Android)
 
-Download **jamaat-tracker-1.0.0.apk** from the [latest release](https://github.com/ali-saad-khan/jamaat-tracker-app/releases/latest), open it on your phone and allow installs from your browser or file manager when asked. Needs Android 7.0 or newer on a 64-bit phone (arm64) . The app is signed with the author's own key, not by Google Play, so Android may show an "unknown source" notice.
+Download **jamaat-tracker-1.0.0.apk** from the [latest release](https://github.com/ali-saad-khan/jamaat-tracker-app/releases/latest), open it on your phone and allow installs from your browser or file manager when asked. Needs Android 7.0 or newer on a 64-bit phone (arm64). The app is signed with the author's own key, not by Google Play, so Android may show an "unknown source" notice.
 
 ## Features
 

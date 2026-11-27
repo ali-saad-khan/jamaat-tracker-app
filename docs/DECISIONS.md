@@ -64,7 +64,7 @@ Short records of choices, so the reasoning is not lost. Newest last.
 
 ## D16: Right-to-left through the `direction` style, no restart
 
-**Why:** `I18nManager.forceRTL` needs an app restart, which is a poor experience when the user taps a language chip. Setting `direction: "rtl"` on the root view flips row layouts and text alignment immediately. **Trade-off:** the native tab bar order does not flip. Numbers stay in Western digits, which is common in Pakistan.
+**Why:** `I18nManager.forceRTL` needs an app restart, which is a poor experience when the user taps a language chip. Setting `direction: "rtl"` on the root view flips row layouts and text alignment immediately. **Trade-off:** numbers stay in Western digits, which is common in Pakistan. (Checked on the release build: the tab bar order also reverses in Urdu.)
 
 ## D17: Emoji tab icons and generated app icons
 
