@@ -16,6 +16,15 @@ Newest first. Each entry says what changed, what was verified, and what is next.
 
 ## Log
 
+### Phase 1: Core check-in
+
+- **Logic (tested):** `dates.ts` (local day keys, DST-safe `addDays`, midnight timer), `status.ts` (tap cycle, day summary).
+- **Storage:** `expo-sqlite` with a versioned migration (`PRAGMA user_version`) and a repository (`setStatus`, `getDay`, `getRange`). SQL is tested against a real in-memory SQLite (decision D8).
+- **Screens:** Today (tap to cycle, long-press to clear, summary line) and History (last 14 days with five status dots) in a tab layout. Today rolls over at local midnight and when the app returns to the foreground. An error boundary shows database failures instead of a blank screen.
+- **Verified:** 23 Jest tests (date tests also run in four time zones), type-check, lint, format, and the Android bundle builds.
+- **Still to confirm on the phone:** marks survive closing the app; rollover at midnight (change the phone date); airplane mode.
+- **Next:** Phase 2 (prayer times and reminders).
+
 ### Phase 0: Foundation
 
 - Scaffolded Expo SDK 58 with Expo Router and TypeScript (strict). Renamed to Jamaat Tracker (`com.saadalikhan.jamaattracker`), removed the template demo screens.

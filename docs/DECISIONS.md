@@ -29,3 +29,11 @@ Short records of choices, so the reasoning is not lost. Newest last.
 ## D7: One branch and one pull request per phase
 
 **Why:** keeps history readable, shows the working process on GitHub, and gives CI a clear gate.
+
+## D8: Test SQL with `better-sqlite3` in memory
+
+**Why:** the repository code is mostly SQL (upserts, ranges), so mocking it would prove little. `better-sqlite3` installs cleanly on Node 22 and gives a real SQLite engine behind the app's small `Db` interface. **Trade-off:** it is a native dev dependency; if it breaks on a future Node version, `sql.js` is the fallback.
+
+## D9: Plain text tabs for now
+
+**Why:** the SDK 58 template dropped the vector-icon package and `expo-symbols` is iOS only. Text-only tabs keep dependencies small; icons can come in Phase 4 polish with an accessible choice.

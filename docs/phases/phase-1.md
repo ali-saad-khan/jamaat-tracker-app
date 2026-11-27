@@ -37,14 +37,14 @@ Mark each of the five prayers for today as _with congregation_, _alone_ or _miss
 
 ## Tasks
 
-1. `dates.ts` with tests (month ends, year ends, leap day, DST change days).
-2. `status.ts` with tests (full cycle, summary counts).
-3. DB provider and migration v1; test that migration is idempotent.
-4. Repository functions with tests (upsert, clear, range, unknown values ignored).
-5. Today screen wired to the repository.
-6. History screen.
-7. Day-rollover handling (foreground refresh and midnight timer).
-8. Manual device check, docs and progress update, pull request.
+1. [x] `dates.ts` with tests (month ends, year ends, leap day, DST change days).
+2. [x] `status.ts` with tests (full cycle, summary counts).
+3. [x] DB provider and migration v1; test that migration is idempotent.
+4. [x] Repository functions with tests (upsert, clear, range, unknown values ignored).
+5. [x] Today screen wired to the repository.
+6. [x] History screen.
+7. [x] Day-rollover handling (foreground refresh and midnight timer).
+8. [ ] Manual device check, docs and progress update, pull request.
 
 ## Test plan
 
