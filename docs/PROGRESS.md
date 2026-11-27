@@ -16,6 +16,11 @@ Newest first. Each entry says what changed, what was verified, and what is next.
 
 ## Log
 
+### Phase 5: release preparation
+
+- Added `eas.json` (development, preview APK and production profiles), `CHANGELOG.md` (1.0.0), a release guide (`docs/RELEASE.md`), a case study for the portfolio (`docs/CASE-STUDY.md`) and the final README.
+- **Not done, needs the author:** the Android build (requires an Expo account login), the GitHub Release with the APK, screenshots, and the on-device checks listed in the release guide.
+
 ### Phase 4: language, theme and polish
 
 - **Urdu and English:** typed string dictionary with a test that both languages have the same keys and placeholders (D15); Urdu prayer names, statuses, months and weekdays; reminder notifications follow the chosen language.
