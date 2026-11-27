@@ -12,6 +12,10 @@ A small, private, offline-first mobile app for tracking the five daily prayers, 
 
 I run a daily WhatsApp poll in a family group to remind everyone to pray in congregation. This app is the personal version: tick each prayer as it happens, see your streak, and get a reminder at prayer time. Your data stays on your phone. Read the [case study](docs/CASE-STUDY.md).
 
+## Install (Android)
+
+Download **jamaat-tracker-1.0.0.apk** from the [latest release](https://github.com/ali-saad-khan/jamaat-tracker-app/releases/latest), open it on your phone and allow installs from your browser or file manager when asked. Needs Android 7.0 or newer on a 64-bit phone (arm64). The app is signed with the author's own key, not by Google Play, so Android may show an "unknown source" notice.
+
 ## Features
 
 - **Check-in:** mark each prayer as _with congregation_, _alone_ or _missed_. Tap to change, long-press to clear.
@@ -21,6 +25,18 @@ I run a daily WhatsApp poll in a family group to remind everyone to pray in cong
 - **Reminders:** local notifications at prayer time or 5, 10 or 15 minutes before.
 - **English and Urdu** with right-to-left layout, and a system, light or dark theme.
 - **Private:** no account, no tracking, no server. All data is stored on the device.
+
+## Screenshots
+
+Sample data, taken from the release build running in an Android emulator.
+
+| Today                                                                                                | History                                                                                                       | Stats                                                                                              | Settings                                                                                                  |
+| ---------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
+| <img src="docs/screenshots/01-today.png" width="180" alt="Today screen with five prayers and times"> | <img src="docs/screenshots/02-history.png" width="180" alt="Month calendar coloured by congregation prayers"> | <img src="docs/screenshots/03-stats.png" width="180" alt="Streaks, seven-day chart and summaries"> | <img src="docs/screenshots/04-settings.png" width="180" alt="Location, calculation method and reminders"> |
+
+| Urdu (right-to-left)                                                                                 | Urdu stats                                                                            | Dark history                                                                                     | Dark stats                                                                          |
+| ---------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------- |
+| <img src="docs/screenshots/05-urdu-today.png" width="180" alt="Today screen in Urdu, right to left"> | <img src="docs/screenshots/06-urdu-stats.png" width="180" alt="Stats screen in Urdu"> | <img src="docs/screenshots/07-dark-history.png" width="180" alt="History calendar in dark mode"> | <img src="docs/screenshots/08-dark-stats.png" width="180" alt="Stats in dark mode"> |
 
 ## Tech
 
@@ -73,7 +89,7 @@ docs/           plan, decisions, progress, phase notes, release guide
 
 ## Status
 
-Phases 0 to 4 are complete and merged. Phase 5 (release) is prepared: the installable APK, screenshots and a few on-device checks (background reminders, Urdu layout, TalkBack) are the remaining steps. See [docs/PROGRESS.md](docs/PROGRESS.md).
+Version 1.0.0 is released: all six phases are merged, the Android APK is built and signed, and the release build was exercised in an emulator (check-in, calendar, stats, prayer times, Urdu and dark mode). Still to confirm on real phones over time: reminders after the app has been closed for hours, after a restart and under battery saver. See [docs/PROGRESS.md](docs/PROGRESS.md).
 
 ## License
 
