@@ -24,7 +24,7 @@ Newest first. Each entry says what changed, what was verified, and what is next.
 - **Verified locally:** format, lint, type-check, 2 tests and `expo-doctor` (20/20) all pass on Node 22.
 - **Found:** the Expo lint tooling needs Node 22.13 or newer, so Node 20 is not enough. The plan and CI now use Node 22.
 - **Still to confirm:** the app opening on a real phone through Expo Go (needs the author's device).
-- **Next:** Phase 1 (core check-in with SQLite).
+- **Next:** Phase 1 (core check-in with SQLite). The detailed design and task list are in [phases/phase-1.md](phases/phase-1.md).
 
 ### Planning
 
