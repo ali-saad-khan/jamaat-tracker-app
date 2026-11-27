@@ -66,3 +66,11 @@ function toDays(rows: Row[]): Record<DateKey, DayEntries> {
   }
   return days;
 }
+
+/** The earliest day with any mark, or null when nothing has been marked yet. */
+export async function getEarliestDate(db: Db): Promise<DateKey | null> {
+  const row = await db.getFirstAsync<{ first: string | null }>(
+    "SELECT MIN(date) AS first FROM entries",
+  );
+  return row?.first ?? null;
+}

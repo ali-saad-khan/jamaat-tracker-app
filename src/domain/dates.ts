@@ -37,3 +37,35 @@ export function msUntilNextLocalMidnight(now: Date): number {
   const next = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 0, 0, 0);
   return next.getTime() - now.getTime();
 }
+
+/** 0 = Sunday ... 6 = Saturday, for a calendar day. */
+export function weekdayIndex(key: DateKey): number {
+  const [y, m, d] = parts(key);
+  return new Date(Date.UTC(y, m - 1, d)).getUTCDay();
+}
+
+export function daysInMonth(year: number, month: number): number {
+  return new Date(Date.UTC(year, month, 0)).getUTCDate();
+}
+
+/** `month` is 1 to 12. Moves forward or back by whole months, wrapping the year. */
+export function addMonths(
+  year: number,
+  month: number,
+  delta: number,
+): { year: number; month: number } {
+  const index = year * 12 + (month - 1) + delta;
+  return { year: Math.floor(index / 12), month: (index % 12) + 1 };
+}
+
+/** The weeks of a month, Monday first. Cells outside the month are null. */
+export function monthGrid(year: number, month: number): (DateKey | null)[][] {
+  const prefix = `${year}-${pad(month)}`;
+  const lead = (weekdayIndex(`${prefix}-01`) + 6) % 7;
+  const cells: (DateKey | null)[] = [
+    ...Array<null>(lead).fill(null),
+    ...Array.from({ length: daysInMonth(year, month) }, (_, i) => `${prefix}-${pad(i + 1)}`),
+  ];
+  while (cells.length % 7 !== 0) cells.push(null);
+  return Array.from({ length: cells.length / 7 }, (_, w) => cells.slice(w * 7, w * 7 + 7));
+}

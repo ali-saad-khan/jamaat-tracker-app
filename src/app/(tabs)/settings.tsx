@@ -1,7 +1,12 @@
 import { useState } from "react";
 import { Pressable, ScrollView, StyleSheet, Switch, Text, TextInput, View } from "react-native";
 
-import { CALCULATION_METHODS, type ReminderOffset, type School } from "@/data/settings";
+import {
+  CALCULATION_METHODS,
+  type ReminderOffset,
+  type School,
+  type StreakTarget,
+} from "@/data/settings";
 import { PRAYERS } from "@/domain/prayers";
 import { useToday } from "@/hooks/use-today";
 import { requestReminderPermission } from "@/services/reminders";
@@ -129,6 +134,17 @@ function SettingsForm() {
           onChange={(reminderOffsetMinutes) => void update({ reminderOffsetMinutes })}
         />
       )}
+      <Text style={styles.heading}>Streak</Text>
+      <Chips<StreakTarget>
+        label="A day counts toward the streak when"
+        options={[
+          { value: 5, label: "All 5 in congregation" },
+          { value: 4, label: "4 or more" },
+          { value: 3, label: "3 or more" },
+        ]}
+        value={settings.streakTarget}
+        onChange={(streakTarget) => void update({ streakTarget })}
+      />
       <Text style={styles.footnote}>
         Times use this phone&apos;s time zone. If you travel, they may be off until you change the
         city.

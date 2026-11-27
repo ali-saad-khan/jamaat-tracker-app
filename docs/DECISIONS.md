@@ -49,3 +49,11 @@ Short records of choices, so the reasoning is not lost. Newest last.
 ## D12: Reminders are best-effort local notifications
 
 **Why:** no server and no push. Reminders are scheduled for a rolling 7-day window and rebuilt whenever the app opens, settings change or the day changes. **Trade-off:** Android battery rules can delay them; the exact-alarm permission is not requested in v1. To be confirmed on an installable build in Phase 5.
+
+## D13: A streak day needs N prayers in congregation (default 5)
+
+**Why:** "all five or nothing" is the strictest reading and can feel discouraging, so the target is a setting (5, 4 or 3). Today never breaks a streak while it is incomplete; the count runs from yesterday until today qualifies. The best streak is computed from the earliest marked day.
+
+## D14: Past days are editable from the History calendar
+
+**Why:** people forget to mark a prayer. The month calendar opens any past day in the same editor used on Today. Future days are disabled.
