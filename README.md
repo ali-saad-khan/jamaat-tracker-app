@@ -2,7 +2,7 @@
 
 A small, offline-first mobile app for tracking the five daily prayers, with a focus on praying in congregation (ba-jamaat). Built with React Native, Expo and TypeScript.
 
-> **Status:** planning complete, Phase 0 (foundation) in progress. See [docs/PROGRESS.md](docs/PROGRESS.md).
+> **Status:** Phase 0 (foundation) in review. See [docs/PROGRESS.md](docs/PROGRESS.md).
 
 ## Why this exists
 
@@ -22,23 +22,23 @@ React Native · Expo (Router) · TypeScript · SQLite (`expo-sqlite`) · Jest ·
 
 ## Documentation
 
-| Doc | What it covers |
-|---|---|
-| [docs/PLAN.md](docs/PLAN.md) | Scope, architecture, data model and the phased roadmap |
-| [docs/DECISIONS.md](docs/DECISIONS.md) | Why each technical choice was made |
-| [docs/PROGRESS.md](docs/PROGRESS.md) | Dated log of what is done and what is next |
+| Doc                                    | What it covers                                         |
+| -------------------------------------- | ------------------------------------------------------ |
+| [docs/PLAN.md](docs/PLAN.md)           | Scope, architecture, data model and the phased roadmap |
+| [docs/DECISIONS.md](docs/DECISIONS.md) | Why each technical choice was made                     |
+| [docs/PROGRESS.md](docs/PROGRESS.md)   | Dated log of what is done and what is next             |
 
 ## Roadmap at a glance
 
-| Phase | Goal |
-|---|---|
-| 0 | Foundation: project, tooling, CI |
-| 1 | Core check-in with local storage |
-| 2 | Prayer times and reminders |
-| 3 | Streaks and stats |
-| 4 | Urdu / RTL, dark mode, accessibility, polish |
-| 5 | Release: APK, screenshots, case study |
-| 6 | Optional: Laravel sync API |
+| Phase | Goal                                         |
+| ----- | -------------------------------------------- |
+| 0     | Foundation: project, tooling, CI             |
+| 1     | Core check-in with local storage             |
+| 2     | Prayer times and reminders                   |
+| 3     | Streaks and stats                            |
+| 4     | Urdu / RTL, dark mode, accessibility, polish |
+| 5     | Release: APK, screenshots, case study        |
+| 6     | Optional: Laravel sync API                   |
 
 ## License
 
