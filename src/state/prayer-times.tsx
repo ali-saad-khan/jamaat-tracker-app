@@ -6,6 +6,7 @@ import type { PrayerTimes } from "@/data/prayer-times";
 import { DEFAULT_SETTINGS, locationKey } from "@/data/settings";
 import type { DateKey } from "@/domain/dates";
 import { planReminders } from "@/domain/reminders";
+import { reminderText } from "@/i18n/strings";
 import { ensureTimes, type AladhanErrorCode, type TimesStatus } from "@/services/aladhan";
 import { applyReminders, expoNotifier } from "@/services/reminders";
 import { useToday } from "@/hooks/use-today";
@@ -32,7 +33,8 @@ export function PrayerTimesProvider({ children }: { children: ReactNode }) {
 
   const refresh = useCallback(() => setTick((t) => t + 1), []);
   const key = locationKey(settings);
-  const { city, country, method, school, remindersEnabled, reminderOffsetMinutes } = settings;
+  const { city, country, method, school, remindersEnabled, reminderOffsetMinutes, language } =
+    settings;
 
   useEffect(() => {
     if (!ready) return;
@@ -48,7 +50,7 @@ export function PrayerTimesProvider({ children }: { children: ReactNode }) {
       if (remindersEnabled) {
         await applyReminders(
           expoNotifier,
-          planReminders(result.days, new Date(), reminderOffsetMinutes),
+          planReminders(result.days, new Date(), reminderOffsetMinutes, 7, reminderText(language)),
         );
       } else {
         await expoNotifier.cancelAll();
@@ -68,6 +70,7 @@ export function PrayerTimesProvider({ children }: { children: ReactNode }) {
     today,
     remindersEnabled,
     reminderOffsetMinutes,
+    language,
     tick,
   ]);
 

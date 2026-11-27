@@ -1,6 +1,6 @@
 import { useSQLiteContext } from "expo-sqlite";
 import { useState } from "react";
-import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Pressable, ScrollView, StyleSheet, View } from "react-native";
 
 import { setStatus } from "@/data/entries";
 import { addMonths, daysInMonth, monthGrid, type DateKey } from "@/domain/dates";
@@ -8,24 +8,11 @@ import type { Prayer } from "@/domain/prayers";
 import { nextStatus, summarizeDay } from "@/domain/status";
 import { useEntries } from "@/hooks/use-entries";
 import { useToday } from "@/hooks/use-today";
+import { useI18n } from "@/state/i18n";
 import { DayEditor } from "@/ui/day-editor";
 import { STATUS_COLORS } from "@/ui/labels";
-
-const WEEKDAYS = ["M", "T", "W", "T", "F", "S", "S"];
-const MONTH_NAMES = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
+import { useTheme } from "@/ui/theme";
+import { Text } from "@/ui/themed";
 
 /** Colour of a day cell by how many prayers were in congregation. */
 function cellColor(jamaat: number, marked: number): string {
@@ -38,6 +25,10 @@ function cellColor(jamaat: number, marked: number): string {
 
 export default function HistoryScreen() {
   const db = useSQLiteContext();
+  const { t, list } = useI18n();
+  const theme = useTheme();
+  const monthNames = list("months");
+  const weekdays = list("weekdaysShort");
   const today = useToday();
   const [year0, month0] = today.split("-").map(Number);
   const [shown, setShown] = useState({ year: year0, month: month0 });
@@ -63,7 +54,7 @@ export default function HistoryScreen() {
       <View style={styles.nav}>
         <Pressable
           accessibilityRole="button"
-          accessibilityLabel="Previous month"
+          accessibilityLabel={t("history.prev")}
           style={styles.navButton}
           onPress={() => {
             setShown((s) => addMonths(s.year, s.month, -1));
@@ -73,11 +64,11 @@ export default function HistoryScreen() {
           <Text style={styles.navText}>‹</Text>
         </Pressable>
         <Text style={styles.month}>
-          {MONTH_NAMES[shown.month - 1]} {shown.year}
+          {monthNames[shown.month - 1]} {shown.year}
         </Text>
         <Pressable
           accessibilityRole="button"
-          accessibilityLabel="Next month"
+          accessibilityLabel={t("history.next")}
           disabled={!canGoForward}
           style={[styles.navButton, !canGoForward && styles.navOff]}
           onPress={() => {
@@ -90,8 +81,8 @@ export default function HistoryScreen() {
       </View>
 
       <View style={styles.weekRow}>
-        {WEEKDAYS.map((d, i) => (
-          <Text key={i} style={styles.weekday}>
+        {weekdays.map((d, i) => (
+          <Text key={i} style={[styles.weekday, { color: theme.subtext }]}>
             {d}
           </Text>
         ))}
@@ -107,12 +98,16 @@ export default function HistoryScreen() {
                 key={date}
                 disabled={future}
                 accessibilityRole="button"
-                accessibilityLabel={`${date}: ${s.marked} of 5 marked, ${s.jamaat} in congregation`}
+                accessibilityLabel={t("history.dayA11y", {
+                  date,
+                  marked: s.marked,
+                  jamaat: s.jamaat,
+                })}
                 onPress={() => setSelected(date)}
                 style={[
                   styles.cell,
-                  { backgroundColor: cellColor(s.jamaat, s.marked) },
-                  date === today && styles.todayCell,
+                  { borderColor: theme.border, backgroundColor: cellColor(s.jamaat, s.marked) },
+                  date === today && { borderWidth: 2, borderColor: theme.primary },
                   date === selected && styles.selectedCell,
                   future && styles.futureCell,
                 ]}
@@ -142,7 +137,7 @@ export default function HistoryScreen() {
           />
         </View>
       ) : (
-        <Text style={styles.hint}>Tap a day to see or change its prayers.</Text>
+        <Text style={[styles.hint, { color: theme.subtext }]}>{t("history.hint")}</Text>
       )}
     </ScrollView>
   );
@@ -161,7 +156,7 @@ const styles = StyleSheet.create({
   navText: { fontSize: 28 },
   month: { fontSize: 20, fontWeight: "700" },
   weekRow: { flexDirection: "row", gap: 6 },
-  weekday: { flex: 1, textAlign: "center", fontSize: 12, opacity: 0.6, marginBottom: 2 },
+  weekday: { flex: 1, textAlign: "center", fontSize: 11, marginBottom: 2 },
   cell: {
     flex: 1,
     aspectRatio: 1,
@@ -173,12 +168,11 @@ const styles = StyleSheet.create({
   },
   cellText: { fontSize: 14 },
   cellTextOn: { color: "#fff", fontWeight: "600" },
-  todayCell: { borderWidth: 2, borderColor: "#1b8a5a" },
   selectedCell: { borderWidth: 3, borderColor: "#2d6cdf" },
   futureCell: { opacity: 0.3 },
   legend: { marginTop: 6 },
-  legendText: { fontSize: 12, opacity: 0.6 },
+  legendText: { fontSize: 12 },
   editor: { marginTop: 14, gap: 10 },
   editorTitle: { fontSize: 20, fontWeight: "700" },
-  hint: { fontSize: 13, opacity: 0.6, marginTop: 10 },
+  hint: { fontSize: 13, marginTop: 10 },
 });
