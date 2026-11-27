@@ -4,17 +4,24 @@ Newest first. Each entry says what changed, what was verified, and what is next.
 
 ## Status board
 
-| Phase                        | State       |
-| ---------------------------- | ----------- |
-| 0 Foundation                 | Not started |
-| 1 Core check-in              | Not started |
-| 2 Prayer times and reminders | Not started |
-| 3 Streaks and stats          | Not started |
-| 4 Language, theme, polish    | Not started |
-| 5 Release                    | Not started |
-| 6 Sync (optional)            | Not started |
+| Phase                        | State                           |
+| ---------------------------- | ------------------------------- |
+| 0 Foundation                 | Not started                     |
+| 1 Core check-in              | Not started                     |
+| 2 Prayer times and reminders | Design written, awaiting review |
+| 3 Streaks and stats          | Not started                     |
+| 4 Language, theme, polish    | Not started                     |
+| 5 Release                    | Not started                     |
+| 6 Sync (optional)            | Not started                     |
 
 ## Log
+
+### Phase 2: design
+
+- Read the SDK 58 notifications docs and called the live Aladhan API. Findings that shaped the design: monthly calendar endpoint, `"05:39 (PKT)"` time format, HTTP 400 for unknown cities, and a **44-minute Asr difference between schools** (Karachi, 27 Nov 2026: 15:22 vs 16:06), so `school` is a visible setting.
+- Local notifications work in Expo Go on Android; background reliability must be confirmed in Phase 5 with an installable build.
+- Wrote [phases/phase-2.md](phases/phase-2.md) with the data model, the parts to build, task list and test plan.
+- **Next:** review the design, then build tasks 1 to 4 (cache, API client, reminder planning) with tests.
 
 ### Phase 1: Core check-in
 
