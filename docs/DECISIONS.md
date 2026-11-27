@@ -37,3 +37,15 @@ Short records of choices, so the reasoning is not lost. Newest last.
 ## D9: Plain text tabs for now
 
 **Why:** the SDK 58 template dropped the vector-icon package and `expo-symbols` is iOS only. Text-only tabs keep dependencies small; icons can come in Phase 4 polish with an accessible choice.
+
+## D10: Cache keyed by location settings instead of clearing it
+
+**Why:** the cache key is `city|country|method|school`, so changing a setting simply starts a new set of rows and switching back is instant. The plan said "clear on change"; keying is simpler and avoids refetching. Old rows are small (about 31 per location). **Trade-off:** a few unused rows linger; a later cleanup can prune them.
+
+## D11: Settings and prayer times live in React context providers
+
+**Why:** the Today and Settings screens and the reminder scheduler all need the same settings and times. One provider fetches once and keeps reminders in step, instead of each screen fetching. The providers are thin; the rules live in tested pure modules.
+
+## D12: Reminders are best-effort local notifications
+
+**Why:** no server and no push. Reminders are scheduled for a rolling 7-day window and rebuilt whenever the app opens, settings change or the day changes. **Trade-off:** Android battery rules can delay them; the exact-alarm permission is not requested in v1. To be confirmed on an installable build in Phase 5.

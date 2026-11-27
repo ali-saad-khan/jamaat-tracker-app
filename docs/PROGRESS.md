@@ -4,17 +4,33 @@ Newest first. Each entry says what changed, what was verified, and what is next.
 
 ## Status board
 
-| Phase                        | State       |
-| ---------------------------- | ----------- |
-| 0 Foundation                 | Not started |
-| 1 Core check-in              | Not started |
-| 2 Prayer times and reminders | Not started |
-| 3 Streaks and stats          | Not started |
-| 4 Language, theme, polish    | Not started |
-| 5 Release                    | Not started |
-| 6 Sync (optional)            | Not started |
+| Phase                        | State           |
+| ---------------------------- | --------------- |
+| 0 Foundation                 | Not started     |
+| 1 Core check-in              | Not started     |
+| 2 Prayer times and reminders | Built (PR open) |
+| 3 Streaks and stats          | Not started     |
+| 4 Language, theme, polish    | Not started     |
+| 5 Release                    | Not started     |
+| 6 Sync (optional)            | Not started     |
 
 ## Log
+
+### Phase 2: built
+
+- **Data:** migration v2 (`prayer_times`), typed settings with validation and defaults (Karachi method, Hanafi Asr), cache repository keyed by location (D10).
+- **Aladhan client:** parses `"05:39 (PKT)"` times and `DD-MM-YYYY` dates, rejects malformed months, maps failures to `city_not_found` / `network` / `bad_response`; `ensureTimes` caches whole months and falls back to older cache offline.
+- **Reminders:** pure `planReminders` (rolling 7 days, offset, stable ids), thin Expo wrapper with an Android channel and permission request, rebuilt on app open, foreground, settings change and day change (D12).
+- **Screens:** Settings tab (city, country, method, Asr school, reminders with offset, live preview of today's times); Today shows each prayer's time and a note when times are saved or unavailable.
+- **Verified:** 51 Jest tests, type-check, lint, format, and the Android bundle builds.
+- **Device checks still to do on a phone:** a reminder firing in Expo Go, offline Today, changing school moves Asr. Background reliability is a Phase 5 check.
+
+### Phase 2: design
+
+- Read the SDK 58 notifications docs and called the live Aladhan API. Findings that shaped the design: monthly calendar endpoint, `"05:39 (PKT)"` time format, HTTP 400 for unknown cities, and a **44-minute Asr difference between schools** (Karachi, 27 Nov 2026: 15:22 vs 16:06), so `school` is a visible setting.
+- Local notifications work in Expo Go on Android; background reliability must be confirmed in Phase 5 with an installable build.
+- Wrote [phases/phase-2.md](phases/phase-2.md) with the data model, the parts to build, task list and test plan.
+- **Next:** review the design, then build tasks 1 to 4 (cache, API client, reminder planning) with tests.
 
 ### Phase 1: Core check-in
 
